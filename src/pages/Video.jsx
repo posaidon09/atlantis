@@ -2,12 +2,27 @@ import "@vidstack/react/player/styles/base.css";
 import { MediaPlayer, MediaProvider, Track } from "@vidstack/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import platform from "platform";
 
 export default function Video() {
 	const [videoUrl, setVideoUrl] = useState("");
 	const [subtitleUrl, setSubtitleUrl] = useState("");
+	const [isTv, setIsTv] = useState(false);
+
+	function isSmartTV() {
+		const { product, os, manufacturer } = platform;
+		return (
+			/product|smarttv|googletv|appletv|viera|aquos/i.test(product || "") ||
+			/os|webos|tizen|hbbtv/i.test(os?.family || "") ||
+			/manufacturer|samsung|lg|sony/i.test(manufacturer || "")
+		);
+	}
 
 	useEffect(() => {
+		const detectedTv = isSmartTV();
+		setIsTv(detectedTv);
+		console.log("Smart TV detected:", detectedTv);
+
 		const path = window.location.pathname.split("/");
 		path.shift();
 
@@ -34,13 +49,13 @@ export default function Video() {
 
 	const streamUrl =
 		videoUrl && `${import.meta.env.VITE_PROXY}/` + encodeURIComponent(videoUrl);
-	console.log(streamUrl);
 	const proxiedSubtitleUrl =
 		subtitleUrl &&
 		`${import.meta.env.VITE_PROXY}/` + encodeURIComponent(subtitleUrl);
 
 	return (
 		<div className="min-h-screen overflow-auto flex items-center justify-center">
+			{isTv && <p className="text-white text-sm">This is a TV</p>}
 			{streamUrl && (
 				<MediaPlayer
 					title="Some anime idk"
