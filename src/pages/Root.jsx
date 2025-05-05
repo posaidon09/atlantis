@@ -9,15 +9,17 @@ export default function Root() {
 		opacity: "0%",
 	});
 	useEffect(() => {
-		axios.get(`${import.meta.env.VITE_BACKEND}/top-airing`).then((res) => {
-			const updated = res.data.results
-				.filter((item) => !item.nsfw)
-				.map((item) => ({
-					...item,
-					image: item.image.replace("/300x400/", "/800x900/"),
-				}));
-			setItems(updated);
-		});
+		axios
+			.get(`https://atlantis-backend.vercel.app/anime/zoro/top-airing`)
+			.then((res) => {
+				const updated = res.data.results
+					.filter((item) => !item.nsfw)
+					.map((item) => ({
+						...item,
+						image: item.image.replace("/300x400/", "/800x900/"),
+					}));
+				setItems(updated);
+			});
 		setTimeout(() => {
 			setAnim({
 				opacity: "100%",
