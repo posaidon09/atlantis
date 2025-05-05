@@ -12,7 +12,7 @@ export default function Video() {
 		path.shift();
 
 		axios
-			.get(`https://atlantis-backend.vercel.app/anime/zoro/watch/${path[1]}`)
+			.get(`${import.meta.env.VITE_BACKEND}/watch/${path[1]}`)
 			.then((res) => {
 				const data = res.data;
 

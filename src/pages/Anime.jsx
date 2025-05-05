@@ -16,12 +16,9 @@ export default function Anime() {
 		path.shift();
 
 		axios
-			.get(
-				`https://atlantis-backend.vercel.app/anime/zoro/info?id=${path[1]}`,
-				{
-					signal: controller.signal,
-				},
-			)
+			.get(`${import.meta.env.VITE_BACKEND}/info?id=${path[1]}`, {
+				signal: controller.signal,
+			})
 			.then((res) => {
 				setInfo(res.data);
 				setLoaded(true);

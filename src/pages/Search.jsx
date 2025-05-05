@@ -8,11 +8,9 @@ export default function Search() {
 	useEffect(() => {
 		const path = window.location.pathname.split("/");
 		path.shift();
-		axios
-			.get(`https://atlantis-backend.vercel.app/anime/zoro/${path[1]}`)
-			.then((res) => {
-				setResults(res.data.results);
-			});
+		axios.get(`${import.meta.env.VITE_BACKEND}/${path[1]}`).then((res) => {
+			setResults(res.data.results);
+		});
 	}, []);
 	return (
 		<div className="overflow-auto min-h-screen">
