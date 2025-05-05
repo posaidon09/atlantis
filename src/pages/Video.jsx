@@ -33,12 +33,10 @@ export default function Video() {
 	}, []);
 
 	const streamUrl =
-		videoUrl &&
-		"http://localhost:3001/proxy?url=" + encodeURIComponent(videoUrl);
+		videoUrl && import.meta.env.VITE_PROXY + encodeURIComponent(videoUrl);
 	console.log(streamUrl);
 	const proxiedSubtitleUrl =
-		subtitleUrl &&
-		"http://localhost:3001/proxy/" + encodeURIComponent(subtitleUrl);
+		subtitleUrl && import.meta.env.VITE_PROXY + encodeURIComponent(subtitleUrl);
 
 	return (
 		<div className="min-h-screen overflow-auto flex items-center justify-center">
