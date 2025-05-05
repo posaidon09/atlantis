@@ -27,7 +27,7 @@ export default function Root() {
 
 	return (
 		<div className="overflow-auto min-h-screen pb-52">
-			<div className="mt-10 flex flex-row items-center justify-center flex-wrap gap-6">
+			<div className="mt-10 flex p-10 flex-row items-center justify-center flex-wrap gap-6">
 				{items.map((item, index) => {
 					return (
 						<Card

@@ -33,18 +33,19 @@ export default function Video() {
 	}, []);
 
 	const streamUrl =
-		videoUrl && import.meta.env.VITE_PROXY + encodeURIComponent(videoUrl);
+		videoUrl && `${import.meta.env.VITE_PROXY}/` + encodeURIComponent(videoUrl);
 	console.log(streamUrl);
 	const proxiedSubtitleUrl =
-		subtitleUrl && import.meta.env.VITE_PROXY + encodeURIComponent(subtitleUrl);
+		subtitleUrl &&
+		`${import.meta.env.VITE_PROXY}/` + encodeURIComponent(subtitleUrl);
 
 	return (
 		<div className="min-h-screen overflow-auto flex items-center justify-center">
 			{streamUrl && (
 				<MediaPlayer
 					title="Some anime idk"
-					src={streamUrl}
-					controls={true}
+					src={{ src: streamUrl, type: "hls" }}
+					controls
 					crossOrigin="anonymous"
 					style={{ width: "60%", height: "auto" }}
 					className="bg-black"
