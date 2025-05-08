@@ -36,7 +36,7 @@ function App() {
 
 	return (
 		<div className="bg-gradient-to-br bg-black from-gray-950 from-30% to-purple-950/50 to-100% ">
-			<div className="flex flex-row items-center justify-center gap-10">
+			<div className="flex flex-row items-center justify-center w-screen pb-10 gap-10 fixed z-30 bg-transparent backdrop-blur-xl rounded-b-xl">
 				<a href="/home" className="inline-block">
 					<h1
 						className="text-white font-mono font-bold text-4xl mt-5 ml-5 hover:scale-110 hover:font-extrabold transition-all duration-300"

@@ -20,35 +20,36 @@ export default function Root() {
 	useEffect(() => {
 		const backend = import.meta.env.VITE_BACKEND;
 		const fetchCategory = async (endpoint, key) => {
-			const res = await axios.get(`${backend}/${endpoint}`);
-			const updated = res.data.results
-				.filter((item) => !item.nsfw)
-				.map((item) => ({
-					...item,
-					image: item.image.replace("/300x400/", "/800x900/"),
-				}));
+			const res = await axios.get(
+				`${backend}/meta/anilist/${endpoint}?provider=zoro`,
+			);
+			const updated = res.data.results.map((item) => ({
+				...item,
+				image: item.image.replace("/300x400/", "/800x900/"),
+			}));
+			console.log(key, res.data.results);
 			setItems((prev) => ({ ...prev, [key]: updated }));
 		};
 
-		fetchCategory("top-airing", "top_airing");
-		fetchCategory("most-popular", "popular");
-		fetchCategory("recent-added", "recent");
+		fetchCategory("top", "top_airing");
+		fetchCategory("popular", "popular");
+		fetchCategory("recent", "recent");
 		fetchCategory("movies", "movies");
 
 		setTimeout(() => setAnim({ opacity: "100%" }), 1000);
 	}, []);
 
 	const sections = [
-		{ title: "Top airing", data: items.top_airing, id: "top" },
 		{ title: "Popular", data: items.popular, id: "popular" },
-		{ title: "Recent", data: items.recent, id: "recent" },
+		{ title: "Top airing", data: items.top_airing, id: "top" },
 		{ title: "Movies", data: items.movies, id: "movies" },
+		{ title: "Recent", data: items.recent, id: "recent" },
 	];
 
 	return (
 		<div className="overflow-auto min-h-screen pb-52 px-6">
 			{sections.map(({ title, data, id }) => (
-				<div key={title} className="mb-20 mt-10">
+				<div key={title} className="mb-20 mt-32">
 					<h1
 						className="text-3xl font-bold text-center text-white mb-8 transition-all duration-300"
 						style={anim}
@@ -63,7 +64,7 @@ export default function Root() {
 									[id]: prev[id] - 1,
 								}))
 							}
-							className="bg-green-600 disabled:bg-gray-600 px-4 py-2 rounded transition-all duration-300 delay-700"
+							className="bg-green-600 disabled:bg-gray-600 px-4 py-2 rounded transition-all duration-300"
 							style={anim}
 							disabled={scroll[id] === 0}
 						>
@@ -73,8 +74,8 @@ export default function Root() {
 						{data.slice(scroll[id], scroll[id] + 6).map((item, index) => (
 							<div key={index} className="group relative w-52">
 								<Card
-									key={item.id}
-									title={item.title}
+									key={index}
+									title={item.title.english ?? item.title.romaji}
 									banner={item.image}
 									url={`/anime/${item.id}`}
 									delay={index * 100}
@@ -82,10 +83,10 @@ export default function Root() {
 									className={"group"}
 								/>
 								<div
-									className={`absolute top-20 ${index == 5 ? "right" : "left"}-10 pointer-events-none bg-gradient-to-br from-gray-900 z-50 to-purple-950/50 backdrop-blur-xl ring ring-purple-500 p-6 w-96 h-80 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+									className={`absolute top-20 ${index == 5 ? "right-10" : "left-10"} pointer-events-none bg-gradient-to-br from-gray-900 z-50 to-purple-950/50 backdrop-blur-xl ring ring-purple-500 p-6 w-96 h-80 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
 								>
 									<div className="text-white text-xl text-center font-bold font-mono">
-										{item.title}
+										{item.title.english ?? item.title.romaji}
 									</div>
 								</div>
 							</div>
@@ -98,7 +99,7 @@ export default function Root() {
 									[id]: prev[id] + 1,
 								}))
 							}
-							className="bg-green-600 disabled:bg-gray-600 px-4 py-2 rounded transition-all duration-300 delay-700"
+							className="bg-green-600 disabled:bg-gray-600 px-4 py-2 rounded transition-all duration-300"
 							style={anim}
 							disabled={scroll[id] + 6 >= data.length}
 						>
