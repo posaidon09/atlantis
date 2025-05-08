@@ -27,7 +27,6 @@ export default function Root() {
 				...item,
 				image: item.image.replace("/300x400/", "/800x900/"),
 			}));
-			console.log(key, res.data.results);
 			setItems((prev) => ({ ...prev, [key]: updated }));
 		};
 
