@@ -8,23 +8,18 @@ function App() {
 	function getPage() {
 		const path = window.location.pathname.split("/");
 		path.shift();
-		switch (path[0]) {
-			case "home": {
-				return <Root />;
-			}
-			case "anime": {
-				return <Anime />;
-			}
-			case "watch": {
-				return <Video />;
-			}
-			case "search": {
-				return <Search />;
-			}
-			default: {
-				window.location.pathname = "home";
-				return <Root />;
-			}
+		const sites = {
+			home: <Root />,
+			anime: <Anime />,
+			watch: <Video />,
+			search: <Search />,
+		};
+		if (path[0] == "") window.location.pathname = "/home";
+		try {
+			return sites[path[0]];
+		} catch {
+			window.location.pathname = "/home";
+			return sites[0];
 		}
 	}
 

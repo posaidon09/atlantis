@@ -72,7 +72,7 @@ export default function Anime() {
 		<div className="overflow-auto min-h-screen bg-gradient-to-br g-black from-gray-950 from-60% to-purple-950/50 to-100%">
 			<img
 				src={info.cover}
-				className="absolute top-32 blur-sm w-screen pointer-events-none z-10 opacity-50"
+				className="absolute top-32 max-h-[600px] blur-sm w-screen pointer-events-none z-10 opacity-50"
 			/>
 			<div className="flex flex-col gap-8 items-center justify-center mt-40">
 				{!loaded || !info.episodes ? (
