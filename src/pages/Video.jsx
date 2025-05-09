@@ -64,7 +64,7 @@ export default function Video() {
 			<div className="flex justify-center items-center mt-36 gap-10">
 				<div className="bg-gradient-to-br from-purple-500 to-pink-500 p-1 rounded-2xl w-[60%] h-auto ">
 					<div className="bg-black rounded-xl aspect-video">
-						{streamUrl.length > 0 && Object.keys(info).length === 0 && (
+						{streamUrl.length > 0 && Object.keys(info).length !== 0 && (
 							<MediaPlayer
 								title={info.episodes[id].title}
 								src={streamUrl}
