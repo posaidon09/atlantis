@@ -17,12 +17,13 @@ export default function Root() {
 		recent: 0,
 		movies: 0,
 	});
+	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		const backend = import.meta.env.VITE_BACKEND;
 		const fetchCategory = async (endpoint, key) => {
 			const res = await axios.get(
-				`${backend}/meta/anilist/${endpoint}?provider=zoro`,
+				`${backend}/meta/anilist/${endpoint}?provider=zoro&perPage=50`,
 			);
 			const updated = res.data.results.map((item) => ({
 				...item,
@@ -31,17 +32,19 @@ export default function Root() {
 			setItems((prev) => ({ ...prev, [key]: updated }));
 		};
 
-		fetchCategory("top", "top_airing");
+		fetchCategory("trending", "top_airing");
 		fetchCategory("popular", "popular");
 		fetchCategory("recent", "recent");
 		fetchCategory("movies", "movies");
-		console.log(items);
-		setTimeout(() => setAnim({ opacity: "100%" }), 1000);
+		setTimeout(() => {
+			setAnim({ opacity: "100%" });
+		}, 1000);
+		setTimeout(() => setLoaded(true), 2000);
 	}, []);
 
 	const sections = [
-		{ title: "Popular", data: items.popular, id: "popular" },
 		{ title: "Top airing", data: items.top_airing, id: "top" },
+		{ title: "Popular", data: items.popular, id: "popular" },
 		{ title: "Movies", data: items.movies, id: "movies" },
 		{ title: "Recent", data: items.recent, id: "recent" },
 	];
@@ -78,7 +81,7 @@ export default function Root() {
 									title={item?.title?.english ?? item?.title?.romaji}
 									banner={item?.image ?? ""}
 									url={`/anime/${item?.id}`}
-									delay={index * 100}
+									delay={loaded ? 0 : index * 100}
 									style={anim}
 									className={"group"}
 								/>
