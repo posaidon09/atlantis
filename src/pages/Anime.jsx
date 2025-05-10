@@ -85,13 +85,21 @@ export default function Anime() {
 						<div className="flex flex-row gap-10 justify-start z-20 items-start">
 							<img
 								src={info.image.replace("/300x400/", "/3000x4000/")}
-								className="w-72 h-[600px] object-cover rounded"
+								className={`w-72 h-[600px] object-cover rounded-3xl border-[5px]`}
+								style={{ borderColor: info.color }}
 								alt={info.title.english ?? info.title.romaji}
 							/>
 							<div className="flex flex-col gap-2">
 								<h1 className="text-3xl text-white font-bold">
 									{info.title.english ?? info.title.romaji}
 								</h1>
+								<div className="flex flex-row gap-2">
+									<Icon
+										className="text-yellow-500 mt-[3px] size-5"
+										name="TbStarFilled"
+									/>
+									<p className="text-white">{info?.rating / 10}</p>
+								</div>
 								<p className="text-white/80 text-xl mt-10">
 									<strong className="text-white">Sub/Dub:</strong>{" "}
 									{info.subOrDub}
@@ -161,13 +169,13 @@ export default function Anime() {
 													<a
 														href={`/watch/${episode.id}`}
 														key={episode.id}
-														className={`h-10 w-full ${
+														className={`h-10 w-full bg-transparent backdrop-blur-xl ring-2 transition-all duration-300 ${
 															episode.isFiller
-																? "bg-yellow-500"
-																: "bg-green-500"
-														} text-white rounded-xl flex items-center px-4`}
+																? "hover:bg-yellow-500/50 ring-yellow-500"
+																: "hover:bg-green-500/50 ring-green-500"
+														} text-white rounded-xl flex items-center p-5`}
 													>
-														<p className="truncate py-10">
+														<p className="truncate pointer-events-none">
 															{episode.number}: {episode.title}
 														</p>
 													</a>

@@ -33,9 +33,7 @@ export default function Video() {
 			setId(ids.indexOf(path[1]) + 1);
 		}
 		axios
-			.get(
-				`${import.meta.env.VITE_BACKEND}/meta/anilist/watch/${path[1]}?provider=zoro`,
-			)
+			.get(`${import.meta.env.VITE_BACKEND}/anime/zoro/watch/${path[1]}`)
 			.then((res) => {
 				const data = res.data;
 
@@ -87,7 +85,7 @@ export default function Video() {
 						)}
 					</div>
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-2 bg-black/40 ring-[4px] ring-gray-500 rounded-xl p-4">
 					<div className="w-[550px] flex flew-row flex-wrap justify-center gap-2 mt-10">
 						{info?.episodes?.length > 0 ? (
 							info.episodes

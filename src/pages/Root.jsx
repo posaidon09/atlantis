@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
+import Icon from "./../components/Icon";
 
 export default function Root() {
 	const [items, setItems] = useState({
@@ -34,7 +35,7 @@ export default function Root() {
 		fetchCategory("popular", "popular");
 		fetchCategory("recent", "recent");
 		fetchCategory("movies", "movies");
-
+		console.log(items);
 		setTimeout(() => setAnim({ opacity: "100%" }), 1000);
 	}, []);
 
@@ -74,19 +75,55 @@ export default function Root() {
 							<div key={index} className="group relative w-52">
 								<Card
 									key={index}
-									title={item.title.english ?? item.title.romaji}
-									banner={item.image}
-									url={`/anime/${item.id}`}
+									title={item?.title?.english ?? item?.title?.romaji}
+									banner={item?.image ?? ""}
+									url={`/anime/${item?.id}`}
 									delay={index * 100}
 									style={anim}
 									className={"group"}
 								/>
 								<div
-									className={`absolute top-20 ${index == 5 ? "right-10" : "left-10"} pointer-events-none bg-gradient-to-br from-gray-900 z-50 to-purple-950/50 backdrop-blur-xl ring ring-purple-500 p-6 w-96 h-80 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+									className={`absolute top-20 ${index == 5 ? "right-10" : "left-10"} pointer-events-none bg-gradient-to-br from-gray-900 z-50 to-purple-950/50 backdrop-blur-xl ring ring-purple-500 p-6 w-96 min-h-[400px] max-h-[700px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
 								>
-									<div className="text-white text-xl text-center font-bold font-mono">
-										{item.title.english ?? item.title.romaji}
+									<p className="text-white text-xl font-bold font-mono">
+										{item?.title?.english ?? item?.title?.romaji}
+									</p>
+									<div className="text-white flex flex-row gap-10">
+										<div className="flex flex-col gap-3">
+											<div className="flex flex-row gap-2">
+												<Icon
+													className="text-yellow-500 mt-[3px] size-5"
+													name="TbStarFilled"
+												/>
+												<p>{item?.rating / 10}</p>
+											</div>
+											<p className="font-bold">{item?.type}</p>
+											{item?.type?.toLowerCase() !== "movie" && (
+												<p className="w-max flex flew-row gap-1">
+													<p className="font-bold">Episodes: </p>
+													{item?.totalEpisodes}
+												</p>
+											)}
+											<p className="w-max flex flew-row gap-1">
+												<p className="font-bold">Status: </p>
+												{item?.status}
+											</p>
+										</div>
+										<p className="font-bold">{item?.genres.join(", ")}</p>
 									</div>
+									<p className="text-white mt-4">
+										{item?.description
+											?.replaceAll("<br>", "")
+											.replaceAll("</br>", "")
+											.replaceAll("<b>", "")
+											.replaceAll("</b>", "")
+											.replaceAll("<i>", "")
+											.replaceAll("</i>", "")
+											.split(" ")
+											?.slice(0, 40)
+											?.join(" ")}
+										...
+									</p>
 								</div>
 							</div>
 						))}
