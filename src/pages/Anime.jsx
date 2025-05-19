@@ -112,9 +112,15 @@ export default function Anime() {
 									{info.startDate.day}/{info.startDate.month}/
 									{info.startDate.year}
 								</p>
+								{info.type.toLowerCase() == "tv" && (
+									<p className="text-white/80 text-xl">
+										<strong className="text-white">Episodes:</strong>{" "}
+										{info.totalEpisodes}
+									</p>
+								)}
 								<p className="text-white/80 text-xl">
-									<strong className="text-white">Episodes:</strong>{" "}
-									{info.totalEpisodes}
+									<strong className="text-white">Studios:</strong>{" "}
+									{info.studios.join(", ")}
 								</p>
 								<p className="text-white/80 text-xl w-52">
 									<strong className="text-white">Genres:</strong>{" "}
@@ -213,8 +219,13 @@ export default function Anime() {
 											)}
 										</div>
 									) : (
-										<div className="relative top-[50%]">
-											<div>watch the movie</div>
+										<div className="w-[550px] h-[500px] overflow-y-auto accent-transparent rounded-xl flex flex-col p-4 gap-2 z-30 items-start justify-start bg-black/40 text-white text-lg flex items-center justify-center">
+											<a
+												className="p-3 bg-green-500 rounded-xl"
+												href={`/watch/${info.episodes[0].id}`}
+											>
+												Watch the movie
+											</a>
 										</div>
 									)
 								) : scroll.page == 1 ? (
@@ -226,7 +237,34 @@ export default function Anime() {
 											.replaceAll("</b>", "")}
 									</div>
 								) : (
-									<div>page 3</div>
+									<div className="w-[550px] h-[500px] overflow-y-auto accent-transparent rounded-xl flex flex-col gap-10 p-4 z-30 items-start justify-start bg-black/40 text-white text-lg">
+										{info.characters.map((character, index) => (
+											<div key={index} className="flex flex-col gap-5">
+												<div className="flex flex-row gap-5 w-full">
+													<img
+														className="rounded-full size-20"
+														src={character.image}
+													/>
+													<p className="mt-5">
+														{character.name.userPreferred
+															.split(" ")
+															.reverse()
+															.join(" ")}
+													</p>
+												</div>
+												<div className="flex flex-row gap-5">
+													<img
+														className="rounded-full size-12 ml-10"
+														src={character?.voiceActors[0]?.image}
+													/>
+													<p className="mt-1">
+														{character?.voiceActors[0]?.name?.full ??
+															"Unavailable"}
+													</p>
+												</div>
+											</div>
+										))}
+									</div>
 								)}
 							</div>
 						</div>
